@@ -1,0 +1,11 @@
+.idea/
+data/
+dumps/
+logs/
+venv/
+.env
+.env.dev
+config.yml
+device.json
+go-cqhttp.exe
+session.token

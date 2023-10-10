@@ -1,0 +1,6 @@
+nonebot2[fastapi]
+nonebot-adapter-onebot
+requests
+aiohttp
+lxml
+httpx
