@@ -1,13 +1,15 @@
 from nonebot.adapters.onebot.v11 import Message, GroupIncreaseNoticeEvent
 from nonebot.plugin import on_notice
+from nonebot import get_driver
 
 
 welcome = on_notice()
+group = get_driver().config.oauth_group
 
 
 @welcome.handle()
 async def handle(event: GroupIncreaseNoticeEvent):
-    if event.group_id == 741048750:
+    if event.group_id in group:
         msg = f"[CQ:at,qq={event.user_id}]"
         msg += "欢迎来到 0RAYS 2023 招新群！！！[CQ:face,id=99][CQ:face,id=2]\n"
         msg += "你可能还不了解CTF是什么，巧了，我也不知道，我只是个机器人\n"
