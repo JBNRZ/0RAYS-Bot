@@ -11,6 +11,7 @@ go-cqhttp: https://docs.go-cqhttp.org/
 > 期待qq官方api的上线
 >
 >> 可恶，linux 下走不通
-
+>> 
+>> 存在问题，目前 Shamrock 无法处理加群 Notice，目前使用 [Red](https://github.com/JBNRZ/0RAYS-Bot-Red)
 
 nonebot: https://nonebot.dev/
