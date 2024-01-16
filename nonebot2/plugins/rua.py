@@ -4,12 +4,10 @@ from os import path
 
 import httpx
 from PIL import Image, ImageDraw
-from nonebot import on_notice
-from nonebot.adapters.onebot.v11 import Bot, PokeNotifyEvent
+from nonebot.adapters.onebot.v11 import Bot
 from nonebot.adapters.onebot.v11.event import MessageEvent
 from nonebot.adapters.onebot.v11.message import Message
 from nonebot.plugin import on_command
-from nonebot.rule import to_me
 
 
 class Rua:
@@ -74,20 +72,6 @@ class Rua:
 
     def to_message(self):
         return f"[CQ:image,file=base64://{base64.b64encode(self.gif).decode('utf-8')}]"
-
-
-poke_me = on_notice(to_me(), priority=10)
-
-
-@poke_me.handle()
-async def rua(bot: Bot, event: PokeNotifyEvent):
-    rua = Rua(event.user_id)
-    await rua.get_avatar()
-    rua.crop_avatar()
-    rua.get_sprites()
-    rua.combine_images()
-    rua.convert_to_gif()
-    await bot.send(event, Message(rua.to_message()))
 
 
 cmd_rua = on_command('rua', priority=10)
