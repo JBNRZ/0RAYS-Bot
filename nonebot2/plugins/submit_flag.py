@@ -35,8 +35,6 @@ async def flag(data: str, request: Request) -> Response:
         for group in groups:
             if count <= 3:
                 await bot.send_group_msg(group_id=group, message=f"恭喜 {username} 获得了题目 {challenge} {blood[count]}血!!!")
-            else:
-                await bot.send_group_msg(group_id=group, message=f"恭喜 {username} 解出了题目 {challenge}, tql!!!! 0rz")
         return Response(status_code=200)
     except Exception as e:
         logger.error(str(e))
