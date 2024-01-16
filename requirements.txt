@@ -47,5 +47,5 @@ pycryptodome==3.19.0
 requests~=2.31.0
 nonebot_plugin_apscheduler==0.3.0
 wechatpy==1.8.18
-nonebot-adapter-onebot===2.3.1
-
+nonebot-adapter-onebot==2.3.1
+pil-utils==0.1.8
