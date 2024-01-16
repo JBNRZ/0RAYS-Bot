@@ -12,15 +12,16 @@ LSPatch + Shamrock + QQ
 __此文件为主要配置文件__
 
 #### 基础配置
-|         name          |  example   |     description     |
-|:---------------------:|:----------:|:-------------------:|
-|         HOST          |  0.0.0.0   | 以nonebot为服务端配置的监听IP |
-|         PORT          |    8080    | 以nonebot为服务端配置的监听端口 |
-|     COMMAND_START     |   ["/"]    |    机器人命令起始符，/cmd    |
-|      COMMAND_SEP      |    [""]    |      机器人命令分隔符       |
-|      SUPERUSERS       | ["123456"] |      机器人超级管理员       |
-|       NICKNAME        |   ["空格"]   |   机器人的名字，与@机器人同理    |
-| APSCHEDULER_AUTOSTART |    True    |      自动启动定时任务       |
+|         name          |             example             |     description     |
+|:---------------------:|:-------------------------------:|:-------------------:|
+|         HOST          |             0.0.0.0             | 以nonebot为服务端配置的监听IP |
+|         PORT          |              8080               | 以nonebot为服务端配置的监听端口 |
+|     COMMAND_START     |              ["/"]              |    机器人命令起始符，/cmd    |
+|      COMMAND_SEP      |              [""]               |      机器人命令分隔符       |
+|      SUPERUSERS       |           ["123456"]            |      机器人超级管理员       |
+|       NICKNAME        |             ["空格"]              |   机器人的名字，与@机器人同理    |
+| APSCHEDULER_AUTOSTART |              True               |      自动启动定时任务       |
+|    ONEBOT_WS_URLS     | ws://0.0.0.0:6700/onebot/ws/v11 |       正向连接地址        |
 
 #### oauth(杭电认证)相关配置
 |        name         |         example         |         description          |
