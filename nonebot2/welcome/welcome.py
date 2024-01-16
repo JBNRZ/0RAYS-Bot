@@ -23,7 +23,7 @@ def encrypt(msg: bytes, key: bytes) -> bytes:
     return AES.new(key, AES.MODE_CBC, key[:16]).encrypt(msg)
 
 
-welcome = on_notice(block=True)
+welcome = on_notice(block=False)
 resend = on_command("check", rule=to_me(), permission=SUPERUSER, block=True)
 manager = get_driver().config.oauth_manager
 
