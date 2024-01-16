@@ -39,18 +39,18 @@ clear_request = on_command("clear", block=True, priority=1, permission=SUPERUSER
 # 单纯记录不响应
 @chat_record.handle()
 async def _(event: MessageEvent, msg: Message = CommandArg()):
+    if not api_key:
+        await chat_record.finish("对不起，暂不支持此功能")
+
     if not plugin_config.enable_group_chat and isinstance(event, GroupMessageEvent):
-        await chat_record.finish("对不起，暂时不支持群聊中使用")
+        await chat_record.finish("对不起，群聊时不支持此功能")
 
     if not plugin_config.enable_private_chat and isinstance(event, PrivateMessageEvent):
-        await chat_record.finish("对不起，私聊暂不支持此功能。")
-
-    if not api_key:
-        await chat_record.finish(MessageSegment.text("请先配置openai_api_key"), at_sender=True)
+        await chat_record.finish("对不起，私聊暂不支持此功能")
 
     content = msg.extract_plain_text()
     if not content:
-        await chat_record.finish(MessageSegment.text("你好，找我有事儿吗？"), at_sender=True)
+        await chat_record.finish(MessageSegment.text("你好，找我有事儿吗？"))
 
     session_id = create_session_id(event)
 
