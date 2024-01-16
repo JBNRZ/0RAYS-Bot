@@ -10,7 +10,6 @@ from nonebot.adapters.onebot.v11.event import MessageEvent
 from nonebot.adapters.onebot.v11.message import Message
 from nonebot.plugin import on_command
 from nonebot.rule import to_me
-from nonebot.typing import T_State
 
 
 class Rua:
@@ -81,7 +80,7 @@ poke_me = on_notice(to_me(), priority=10)
 
 
 @poke_me.handle()
-async def rua(bot: Bot, event: PokeNotifyEvent, state: T_State):
+async def rua(bot: Bot, event: PokeNotifyEvent):
     rua = Rua(event.user_id)
     await rua.get_avatar()
     rua.crop_avatar()
@@ -95,7 +94,7 @@ cmd_rua = on_command('rua', priority=10)
 
 
 @cmd_rua.handle()
-async def get_args(bot: Bot, event: MessageEvent, state: T_State):
+async def get_args(bot: Bot, event: MessageEvent):
     ids = set()
     for message in event.message:
         if message.type == 'at':
