@@ -1,6 +1,7 @@
 from io import BytesIO
 from pathlib import Path
 from typing import List, Protocol
+from random import choices
 
 from PIL.Image import Image
 from pil_utils import BuildImage
@@ -154,3 +155,50 @@ def strike(images: List[BuildImage]):
         return make
 
     return save_gif([maker(i)(images[0]).image for i in range(7)], 0.05)
+
+
+def say_loop(text: str) -> List[Image]:
+    img_dir = Path(__file__).parent / "say"
+    text_frame = BuildImage.new("RGBA", (80, 80))
+    try:
+        text_frame.draw_text(
+            (0, 0, 80, 80),
+            text,
+            max_fontsize=80,
+            min_fontsize=20,
+            allow_wrap=True,
+            fontname="FZKaTong-M19S",
+            lines_align="center",
+        )
+    except ValueError:
+        raise ValueError
+
+    params = [
+        None,
+        None,
+        None,
+        (45, 45, 74, 112, 25),
+        (73, 73, 41, 42, 17),
+        (80, 80, 43, 36, 0),
+        (80, 80, 43, 30, 0),
+        (78, 78, 44, 30, 0),
+        (78, 78, 44, 29, 0),
+        None,
+    ]
+
+    frames: List[Image] = []
+    for i in range(10):
+        frame = BuildImage.open(img_dir / f"{i}.png")
+        param = params[i]
+        if param:
+            x, y, w, h, angle = param
+            frame.paste(
+                text_frame.resize((x, y)).rotate(angle, expand=True), (w, h), alpha=True
+            )
+        frames.append(frame.image)
+    return frames
+
+
+def say(texts: List[str]):
+    frames = sum([say_loop(text) for text in texts], [])
+    return save_gif(frames, 0.1)
