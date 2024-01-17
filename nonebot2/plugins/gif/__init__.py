@@ -27,7 +27,7 @@ async def handle(bot: Bot, event: PokeNotifyEvent):
             logger.warning(f"Failed to ban {event.user_id} in {event.group_id}: {e}")
 
 
-async def get_avatar(user_id: int | str) -> Image:
+async def get_avatar(user_id):
     url = f'http://q1.qlogo.cn/g?b=qq&nk={user_id}&s=100'
     async with AsyncClient() as client:
         arg = [BuildImage(Image.open(BytesIO((await client.get(url)).content)))]
