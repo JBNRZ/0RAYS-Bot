@@ -2,13 +2,13 @@ from uuid import uuid4
 
 from Crypto.Cipher import AES
 from nonebot import get_driver, on_command
-from nonebot.adapters.onebot.v11 import Bot
+from nonebot.adapters.onebot.v11 import Bot, Event
 from nonebot.adapters.onebot.v11 import Message, MessageSegment
 from nonebot.adapters.onebot.v11 import GroupIncreaseNoticeEvent, GroupMessageEvent
 from nonebot.log import logger
 from nonebot.permission import SUPERUSER
 from nonebot.plugin import on_notice
-from nonebot.rule import to_me
+from nonebot.rule import Rule, to_me
 from requests import post
 
 from ._send_email import send_email
@@ -23,7 +23,13 @@ def encrypt(msg: bytes, key: bytes) -> bytes:
     return AES.new(key, AES.MODE_CBC, key[:16]).encrypt(msg)
 
 
-welcome = on_notice(block=False)
+async def check(event: Event) -> bool:
+    if isinstance(event, GroupIncreaseNoticeEvent):
+        return True
+    return False
+
+
+welcome = on_notice(rule=Rule(check))
 resend = on_command("check", rule=to_me(), permission=SUPERUSER, block=True)
 manager = get_driver().config.oauth_manager
 

@@ -5,15 +5,21 @@ from random import choice
 from PIL import Image
 from httpx import AsyncClient
 from nonebot import on_notice, logger
-from nonebot.adapters.onebot.v11 import Bot, PokeNotifyEvent
+from nonebot.rule import Rule
+from nonebot.adapters.onebot.v11 import Bot, PokeNotifyEvent, Event
 from nonebot.adapters.onebot.v11.message import Message
-from nonebot.rule import to_me
 from pil_utils import BuildImage
 
 from .functions import draw, rip, strike, rub, say
 
 
-poke_me = on_notice(to_me(), priority=10)
+async def check(event: Event) -> bool:
+    if isinstance(event, PokeNotifyEvent):
+        return True
+    return False
+
+
+poke_me = on_notice(rule=Rule(check))
 
 
 @poke_me.handle()
