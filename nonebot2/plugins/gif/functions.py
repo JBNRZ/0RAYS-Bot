@@ -1,7 +1,6 @@
 from io import BytesIO
 from pathlib import Path
 from typing import List, Protocol
-from random import choices
 
 from PIL.Image import Image
 from pil_utils import BuildImage
@@ -155,6 +154,84 @@ def strike(images: List[BuildImage]):
         return make
 
     return save_gif([maker(i)(images[0]).image for i in range(7)], 0.05)
+
+
+def suck(images: List[BuildImage]):
+    img_dir = Path(__file__).parent / "suck"
+    img = images[0].convert("RGBA").square()
+    locs = [(82, 100, 130, 119), (82, 94, 126, 125), (82, 120, 128, 99), (81, 164, 132, 55),
+            (79, 163, 132, 55), (82, 140, 127, 79), (83, 152, 125, 67), (75, 157, 140, 62),
+            (72, 165, 144, 54), (80, 132, 128, 87), (81, 127, 127, 92), (79, 111, 132, 108)]
+    frames: List[Image] = []
+    for i in range(12):
+        bg = BuildImage.open(img_dir / f"{i}.png").convert("RGBA")
+        frame = BuildImage.new("RGBA", bg.size, "white")
+        x, y, w, h = locs[i]
+        frame.paste(img.resize((w, h)), (x, y), alpha=True).paste(bg, alpha=True)
+        frames.append(frame.image)
+    return save_gif(frames, 0.08)
+
+
+def tightly(images: List[BuildImage]):
+    img_dir = Path(__file__).parent / "tightly"
+    img = images[0].convert("RGBA").resize((640, 400), keep_ratio=True)
+    locs = [(39, 169, 267, 141), (40, 167, 264, 143), (38, 174, 270, 135), (40, 167, 264, 143), (38, 174, 270, 135),
+            (40, 167, 264, 143), (38, 174, 270, 135), (40, 167, 264, 143), (38, 174, 270, 135), (28, 176, 293, 134),
+            (5, 215, 333, 96), (10, 210, 321, 102), (3, 210, 330, 104), (4, 210, 328, 102), (4, 212, 328, 100),
+            (4, 212, 328, 100), (4, 212, 328, 100), (4, 212, 328, 100), (4, 212, 328, 100), (29, 195, 285, 120)]
+    frames: List[Image] = []
+    for i in range(20):
+        frame = BuildImage.open(img_dir / f"{i}.png").convert("RGBA")
+        x, y, w, h = locs[i]
+        frame.paste(img.resize((w, h)), (x, y), below=True)
+        frames.append(frame.image)
+    return save_gif(frames, 0.08)
+
+
+def play(images: List[BuildImage]):
+    img_dir = Path(__file__).parent / "play"
+    img = images[0].convert("RGBA").square()
+    locs = [
+        (180, 60, 100, 100), (184, 75, 100, 100), (183, 98, 100, 100),
+        (179, 118, 110, 100), (156, 194, 150, 48), (178, 136, 122, 69),
+        (175, 66, 122, 85), (170, 42, 130, 96), (175, 34, 118, 95),
+        (179, 35, 110, 93), (180, 54, 102, 93), (183, 58, 97, 92),
+        (174, 35, 120, 94), (179, 35, 109, 93), (181, 54, 101, 92),
+        (182, 59, 98, 92), (183, 71, 90, 96), (180, 131, 92, 101)
+    ]
+    raw_frames: List[BuildImage] = [BuildImage.open(img_dir / f"{i}.png").convert("RGBA") for i in range(38)]
+    img_frames: List[BuildImage] = []
+    for i in range(len(locs)):
+        frame = raw_frames[i]
+        x, y, w, h = locs[i]
+        frame.paste(img.resize((w, h)), (x, y), below=True)
+        img_frames.append(frame)
+    frames = (
+        img_frames[0:12]
+        + img_frames[0:12]
+        + img_frames[0:8]
+        + img_frames[12:18]
+        + raw_frames[18:38]
+    )
+    frames = [frame.image for frame in frames]
+    return save_gif(frames, 0.06)
+
+
+def pat(images: List[BuildImage]):
+    img_dir = Path(__file__).parent / "pat"
+    img = images[0].convert("RGBA").square()
+    locs = [(11, 73, 106, 100), (8, 79, 112, 96)]
+    img_frames: List[Image] = []
+    for i in range(10):
+        frame = BuildImage.open(img_dir / f"{i}.png").convert("RGBA")
+        x, y, w, h = locs[1] if i == 2 else locs[0]
+        frame.paste(img.resize((w, h)), (x, y), below=True)
+        img_frames.append(frame.image)
+    # fmt: off
+    seq = [0, 1, 2, 3, 1, 2, 3, 0, 1, 2, 3, 0, 0, 1, 2, 3, 0, 0, 0, 0, 4, 5, 5, 5, 6, 7, 8, 9]
+    # fmt: on
+    frames = [img_frames[n] for n in seq]
+    return save_gif(frames, 0.085)
 
 
 def say_loop(text: str) -> List[Image]:
