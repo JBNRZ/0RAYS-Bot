@@ -29,7 +29,7 @@ async def check(event: Event) -> bool:
     return False
 
 
-welcome = on_notice(rule=Rule(check))
+welcome = on_notice(rule=Rule(check), block=False)
 resend = on_command("check", rule=to_me(), permission=SUPERUSER, block=True)
 manager = get_driver().config.oauth_manager
 

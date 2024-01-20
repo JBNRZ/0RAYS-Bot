@@ -19,7 +19,7 @@ async def check(event: Event) -> bool:
     return False
 
 
-poke_me = on_notice(rule=Rule(check) & to_me())
+poke_me = on_notice(rule=Rule(check) & to_me(), block=False)
 
 
 @poke_me.handle()
