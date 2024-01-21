@@ -41,6 +41,7 @@ async def get_avatar(user_id):
         if func == say:
             arg = [choice(["别戳了！！！", "好烦呐！！！", "球球别戳了", "再戳把你禁言了", "好烦，ban了"])]
         if 0 <= datetime.now().hour <= 5:
+            func = say
             arg = [choice(["不早了，快睡！", "别熬夜了，晚安", "nnd，快睡觉，还戳？！"])]
         image = func(arg)
         return f"[CQ:image,file=base64://{b64encode(image.getvalue()).decode('utf-8')}]", arg
