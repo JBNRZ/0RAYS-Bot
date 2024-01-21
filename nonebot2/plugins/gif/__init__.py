@@ -1,6 +1,7 @@
 from base64 import b64encode
 from io import BytesIO
 from random import choice
+from datetime import datetime
 
 from PIL import Image
 from httpx import AsyncClient
@@ -26,11 +27,10 @@ poke_me = on_notice(rule=Rule(check) & to_me(), block=False)
 async def handle(bot: Bot, event: PokeNotifyEvent):
     image, arg = await get_avatar(event.user_id)
     await bot.send(event, Message(image))
-    if arg in [["别戳了！！！"], ["好烦呐！！！"], ["好烦，ban了"], ["球球别戳了"]]:
-        try:
-            await bot.set_group_ban(group_id=event.group_id, user_id=event.user_id, duration=600)
-        except Exception as e:
-            logger.warning(f"Failed to ban {event.user_id} in {event.group_id}: {e}")
+    if arg[0] in ["别戳了！！！", "好烦呐！！！", "好烦，ban了", "球球别戳了"]:
+        await bot.set_group_ban(group_id=event.group_id, user_id=event.user_id, duration=600)
+    if arg[0] in ["不早了，快睡！", "别熬夜了，晚安", "nnd，快睡觉，还戳？！"]:
+        await bot.set_group_ban(group_id=event.group_id, user_id=event.user_id, duration=21600)
 
 
 async def get_avatar(user_id):
@@ -40,5 +40,7 @@ async def get_avatar(user_id):
         func = choice([draw, rip, strike, rub, play, suck, pat, tightly, say, say, say])
         if func == say:
             arg = [choice(["别戳了！！！", "好烦呐！！！", "球球别戳了", "再戳把你禁言了", "好烦，ban了"])]
+        if 0 <= datetime.now().hour <= 5:
+            arg = [choice(["不早了，快睡！", "别熬夜了，晚安", "nnd，快睡觉，还戳？！"])]
         image = func(arg)
         return f"[CQ:image,file=base64://{b64encode(image.getvalue()).decode('utf-8')}]", arg
