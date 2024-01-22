@@ -2,7 +2,7 @@ from uuid import uuid4
 
 from Crypto.Cipher import AES
 from nonebot import get_driver, on_command
-from nonebot.adapters.onebot.v11 import Bot, Event
+from nonebot.adapters.onebot.v11 import Bot, NoticeEvent
 from nonebot.adapters.onebot.v11 import Message, MessageSegment
 from nonebot.adapters.onebot.v11 import GroupIncreaseNoticeEvent, GroupMessageEvent
 from nonebot.log import logger
@@ -23,8 +23,8 @@ def encrypt(msg: bytes, key: bytes) -> bytes:
     return AES.new(key, AES.MODE_CBC, key[:16]).encrypt(msg)
 
 
-async def check(event: Event) -> bool:
-    if isinstance(event, GroupIncreaseNoticeEvent):
+async def check(event: NoticeEvent) -> bool:
+    if isinstance(event, GroupIncreaseNoticeEvent) or event.notice_type == "group_increase":
         return True
     return False
 
@@ -35,7 +35,7 @@ manager = get_driver().config.oauth_manager
 
 
 @welcome.handle()
-async def handle(bot: Bot, event: GroupIncreaseNoticeEvent):
+async def handle(bot: Bot, event: GroupIncreaseNoticeEvent | NoticeEvent):
     await bot.set_group_ban(group_id=int(event.group_id), user_id=int(event.user_id), duration=2592000)
     token = str(uuid4())
     url: str = get_driver().config.oauth_server.strip("/") + "/oauth/register"
