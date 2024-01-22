@@ -1,4 +1,5 @@
 from uuid import uuid4
+from typing import Union
 
 from Crypto.Cipher import AES
 from nonebot import get_driver, on_command
@@ -35,7 +36,7 @@ manager = get_driver().config.oauth_manager
 
 
 @welcome.handle()
-async def handle(bot: Bot, event: GroupIncreaseNoticeEvent | NoticeEvent):
+async def handle(bot: Bot, event: Union[NoticeEvent, GroupIncreaseNoticeEvent]):
     await bot.set_group_ban(group_id=int(event.group_id), user_id=int(event.user_id), duration=2592000)
     token = str(uuid4())
     url: str = get_driver().config.oauth_server.strip("/") + "/oauth/register"
