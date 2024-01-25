@@ -50,13 +50,14 @@ __此文件为主要配置文件__
 |   WX_MANAGER    |  "123456"  |     管理员      |
 
 #### Openai
-|           name           |     example     | description |
-|:------------------------:|:---------------:|:-----------:|
-|     OPENAI_API_KEYS      |     ["",""]     |  多个api-key  |
-|    OPENAI_MODEL_NAME     | "gpt-3.5-turbo" |     模型      |
-| OPENAI_MAX_HISTORY_LIMIT |       30        |  上下文消息数量限制  |
-|   OPENAI_PRIVATE_CHAT    |      True       |    私聊开关     |
-|    OPENAI_GROUP_CHAT     |      True       |    群聊开关     |
+|           name           |     example     | description  |
+|:------------------------:|:---------------:|:------------:|
+|       CHATGPT_MASK       |     "你是空格"      | ChatGPT 面具设置 |
+|     OPENAI_API_KEYS      |     ["",""]     |  多个api-key   |
+|    OPENAI_MODEL_NAME     | "gpt-3.5-turbo" |      模型      |
+| OPENAI_MAX_HISTORY_LIMIT |       30        |  上下文消息数量限制   |
+|   OPENAI_PRIVATE_CHAT    |      True       |     私聊开关     |
+|    OPENAI_GROUP_CHAT     |      True       |     群聊开关     |
 
 #### Submission Notice
 |         name          |       example        | description  |
