@@ -2,6 +2,10 @@
 此处采用 MuMu模拟器 + OpenShamrock 的方式搭建
 > [OpenShamrock](https://github.com/whitechi73/OpenShamrock)
 
+____
+
+机器人需要为`管理员`或`群主`，QQ群设置`加群方式`须为`需要回答问题并由管理员审核`，问题随意
+
 ## QQ server
 LSPatch + Shamrock + QQ
 
