@@ -5,7 +5,7 @@ from re import compile, findall
 import lxml.html
 from aiohttp import request, client
 from nonebot import on_regex
-from nonebot.adapters.onebot.v11 import PrivateMessageEvent, GroupMessageEvent
+from nonebot.adapters.red import PrivateMessageEvent, GroupMessageEvent
 
 analysis_stat = {}
 analysis_bili = on_regex(
@@ -19,7 +19,7 @@ async def analysis_main(event: GroupMessageEvent):
     if "b23.tv" in text:
         # 提前处理短链接，避免解析到其他的
         text = await b23_extract(text)
-    group_id = event.group_id
+    group_id = event.peerUid
     msg = await bili_keyword(group_id, text)
     if msg:
         await analysis_bili.send(msg)

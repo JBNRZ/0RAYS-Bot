@@ -1,5 +1,5 @@
 from nonebot import get_driver, get_bot
-from nonebot.adapters.onebot.v11 import Bot
+from nonebot.adapters.red import Bot
 from nonebot.drivers.fastapi import Driver
 from fastapi import Request, Response
 from nonebot.log import logger
@@ -34,7 +34,8 @@ async def flag(data: str, request: Request) -> Response:
         bot: Bot = get_bot()
         for group in groups:
             if count <= 3:
-                await bot.send_group_msg(group_id=group, message=f"恭喜 {username} 获得了题目 {challenge} {blood[count]}血!!!")
+                await bot.send_group_message(target=group,
+                                             message=f"恭喜 {username} 获得了题目 {challenge} {blood[count]}血!!!")
         return Response(status_code=200)
     except Exception as e:
         logger.error(str(e))

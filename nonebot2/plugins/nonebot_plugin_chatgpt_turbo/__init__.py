@@ -2,8 +2,8 @@ from random import choice
 
 import nonebot
 from nonebot import on_command
-from nonebot.adapters.onebot.v11 import Message, MessageSegment
-from nonebot.adapters.onebot.v11 import PrivateMessageEvent, GroupMessageEvent, MessageEvent
+from nonebot.adapters.red import Message, MessageSegment
+from nonebot.adapters.red import PrivateMessageEvent, GroupMessageEvent, MessageEvent
 from nonebot.log import logger
 from nonebot.params import CommandArg
 from nonebot.permission import SUPERUSER

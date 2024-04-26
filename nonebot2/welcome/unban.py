@@ -1,5 +1,5 @@
 from nonebot import get_driver, get_bot
-from nonebot.adapters.onebot.v11 import Bot, Message, MessageSegment
+from nonebot.adapters.red import Bot, Message, MessageSegment
 from nonebot_plugin_apscheduler import scheduler
 from requests import get
 
@@ -17,7 +17,7 @@ async def check_baned_user():
         bot: Bot = get_bot()
         for baned in response.json()["data"]:
             qq, group = baned.split("-")
-            await bot.set_group_ban(group_id=int(group), user_id=int(qq), duration=0)
+            await bot.unmute_member(int(group), qq)
             msg = Message(MessageSegment.at(qq))
             msg += "欢迎参加第七届赛博杯，祝你在这里玩的愉快，有问题找管理\n平台地址: https://training.0rays.club"
             # msg += f"欢迎来到 0RAYS 2023 招新群！！！" + Message(MessageSegment.face('99')) + Message(
@@ -34,4 +34,4 @@ async def check_baned_user():
             # msg += "实在不行@群里的管理员，他们会乐意回答一些入门问题"
             # msg += f"管理员不在线怎么办，那就私聊" + Message(MessageSegment.at(manager)) + "（这哥们几乎啥时候都在线\n"
             # msg += "最后的最后，放出一个重磅的消息：一年一度的赛博杯马上就要来啦！！(预计将在10月份举办)届时我们也将第一次招纳新成员，期待优秀的你能够加入我们~\n"
-            await bot.send_group_msg(group_id=group, message=msg)
+            await bot.send_group_message(target=group, message=msg)

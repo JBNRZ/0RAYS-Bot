@@ -1,5 +1,5 @@
 from nonebot import get_driver, get_bot
-from nonebot.adapters.onebot.v11 import Bot
+from nonebot.adapters.red import Bot
 from nonebot.drivers.fastapi import Driver
 from fastapi import Request, Response
 from nonebot.log import logger
@@ -41,9 +41,9 @@ async def receive(request: Request) -> dict:
     try:
         msg = f"收到来自微信公众号信息：{content(msg)}"
         for group in get_driver().config.wx_notice_group:
-            await bot.send_group_msg(group_id=group, message=msg)
+            await bot.send_group_message(target=group, message=msg)
     except Exception as e:
-        await bot.send_private_msg(user_id=get_driver().config.wx_manager, message=f"{e}\n{msg}")
+        await bot.send_friend_message(target=get_driver().config.wx_manager, message=f"{e}\n{msg}")
         logger.error(e)
         logger.info(msg)
     return {"status": "ok", "code": 0}
