@@ -7,3 +7,5 @@ lxml==5.2.1
 aiohttp==3.9.5
 pil-utils==0.1.10
 fastapi==0.110.2
+nonebot_plugin_apscheduler==0.4.0
+pycryptodome==3.20.0
