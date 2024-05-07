@@ -11,6 +11,11 @@ analysis_stat = {}
 analysis_bili = on_regex(
     "(b23.tv)|(www.bilibili.com/video)|(www.bilibili.com/bangumi)|(^(BV|bv)([0-9A-Za-z]{10}))|(^(av|AV)([0-9]+)("
     "/.*|\\?.*|)$)|(\\[\\[QQ小程序\\]哔哩哔哩\\])|(QQ小程序&amp;#93;哔哩哔哩)|(QQ小程序&#93;哔哩哔哩)", block=True)
+headers = {
+    'Referer': "https://www.bilibili.com",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)"
+                  "  Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.78"
+}
 
 
 @analysis_bili.handle()
@@ -81,7 +86,7 @@ async def b23_extract(text):
     if not b23:
         b23 = compile(r'b23.tv/(\w+)').search(text)
     url = f'https://b23.tv/{b23[1]}'
-    async with request('GET', url, timeout=client.ClientTimeout(10)) as resp:
+    async with request('GET', url, headers=headers, timeout=client.ClientTimeout(10)) as resp:
         r = str(resp.url)
     return r
 
@@ -111,7 +116,7 @@ async def search_bili_by_title(title: str):
     search_url = f'https://search.bilibili.com/video?keyword={urllib.parse.quote(title_without_brackets)}'
 
     try:
-        async with request('GET', search_url, timeout=client.ClientTimeout(10)) as resp:
+        async with request('GET', search_url, headers=headers, timeout=client.ClientTimeout(10)) as resp:
             text = await resp.text(encoding='utf8')
             content: lxml.html.HtmlElement = lxml.html.fromstring(text)
     except asyncio.TimeoutError:
@@ -129,7 +134,7 @@ async def search_bili_by_title(title: str):
 
 async def video_detail(url):
     try:
-        async with request('GET', url, timeout=client.ClientTimeout(10)) as resp:
+        async with request('GET', url, headers=headers, timeout=client.ClientTimeout(10)) as resp:
             res = await resp.json()
             res = res['data']
         vurl = f"URL：https://www.bilibili.com/video/av{res['aid']}\n"
@@ -145,7 +150,7 @@ async def video_detail(url):
 
 async def bangumi_detail(url):
     try:
-        async with request('GET', url, timeout=client.ClientTimeout(10)) as resp:
+        async with request('GET', url, headers=headers, timeout=client.ClientTimeout(10)) as resp:
             res = await resp.text()
         content: lxml.html.HtmlElement = lxml.html.fromstring(res)
         name = content.xpath('//*[@id="media_module"]/div/a/text()')
