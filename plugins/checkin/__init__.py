@@ -42,6 +42,7 @@ async def handle(event: MessageEvent):
             page = await context.new_page()
             await page.goto("https://skl.hdu.edu.cn/api/login/dingtalk/auth?index=&code=0&authCode=0&state=0")
             await page.wait_for_selector("div.module-qrcode-code", timeout=10000)
+            await page.wait_for_timeout(1000)
             qrcode = await page.query_selector("div.module-qrcode-code")
             qrcode = await qrcode.screenshot()
             await register.send("Please finish it in 20 seconds by using dingding app\n" + MessageSegment.image(qrcode))
