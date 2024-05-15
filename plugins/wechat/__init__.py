@@ -40,7 +40,7 @@ async def receive(request: Request) -> dict:
         return {"status": "error", "code": -1}
     try:
         msg = f"收到来自微信公众号信息：{content(msg)}"
-        for group in get_driver().config.wx_notice_group:
+        for group in get_driver().config.wx_notice_groups:
             await bot.send_group_msg(group_id=group, message=msg)
     except Exception as e:
         await bot.send_private_msg(user_id=get_driver().config.wx_manager, message=f"{e}\n{msg}")

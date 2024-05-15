@@ -1,6 +1,7 @@
 **/__pycache__
 .venv/
 .idea/
+dingding/
 .env
 .env.dev
 .env.prod

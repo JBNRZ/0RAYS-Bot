@@ -41,7 +41,7 @@ def encrypt(msg: bytes, key: bytes) -> bytes:
 
 
 async def check(event: NoticeEvent) -> bool:
-    if isinstance(event, GroupIncreaseNoticeEvent) and str(event.group_id) in get_driver().config.oauth_group:
+    if isinstance(event, GroupIncreaseNoticeEvent) and str(event.group_id) in get_driver().config.oauth_groups:
         return True
     return False
 
