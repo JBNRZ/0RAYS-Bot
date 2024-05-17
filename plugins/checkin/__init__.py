@@ -1,19 +1,21 @@
 from os import path, mkdir, listdir
 from random import uniform
 from typing import Type
+from asyncio import gather, create_task
 
 from nonebot.adapters.onebot.v11.event import MessageEvent, GroupMessageEvent, PrivateMessageEvent
 from nonebot.adapters.onebot.v11.message import MessageSegment
 from nonebot.plugin import on_command, on_regex
 from nonebot.matcher import Matcher
 from nonebot.rule import to_me, Rule
-from nonebot import get_driver
+from nonebot import get_driver, logger
 from playwright.async_api import async_playwright, TimeoutError, Route
 from playwright.async_api import Geolocation, ViewportSize
 
 
 async def check(event: MessageEvent) -> bool:
-    if len(event.get_plaintext().strip()) == 4 and str(event.group_id) in get_driver().config.checkin_groups:
+    if len(event.get_plaintext().strip()) == 4 and (
+            event.message_type == "private" or str(event.group_id) in get_driver().config.checkin_groups):
         return True
     return False
 
@@ -26,8 +28,13 @@ resp = None
 async def check_result(route: Route):
     global resp
     response = await route.fetch()
-    response = await response.json()
-    resp = response["msg"]
+    resp_dict = await response.json()
+    resp_text = await response.text()
+    if "msg" in resp_dict:
+        resp = resp_dict["msg"]
+    else:
+        resp = "签到成功"
+    logger.info(resp_text)
 
 
 @register.handle()
@@ -69,9 +76,11 @@ async def handle(event: GroupMessageEvent):
         return
     if not path.exists("./dingding"):
         return code.finish("Cookies not found")
+    tasks = []
     for uid in listdir("./dingding"):
         uid = uid.split(".")[0]
-        await checkin(code, checkin_code, uid)
+        tasks.append(create_task(checkin(code, checkin_code, uid)))
+    await gather(*tasks)
 
 
 @code.handle()
@@ -124,6 +133,6 @@ async def checkin(matcher: Type[Matcher], checkin_code: str, uid: str):
             resp = e
         finally:
             await page.wait_for_timeout(500)
-            await matcher.send(f"uid: {uid}\n{resp}")
+            await matcher.send(MessageSegment.at(user_id=uid) + str(resp))
             await context.close()
             await driver.close()
