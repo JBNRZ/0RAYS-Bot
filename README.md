@@ -16,7 +16,7 @@ appsettings.json
       "Microsoft.Hosting.Lifetime": "Information"
     }
   },
-  "SignServerUrl": "https://sign.lagrangecore.org/api/sign",
+  "SignServerUrl": " https://sign.lagrangecore.org/api/sign/25765",
   "Account": {
     "Uin": 0,
     "Password": "",
