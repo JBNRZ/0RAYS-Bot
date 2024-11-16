@@ -9,39 +9,49 @@ appsettings.json
 
 ```json
 {
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Warning",
-      "Microsoft.Hosting.Lifetime": "Information"
-    }
-  },
-  "SignServerUrl": " https://sign.lagrangecore.org/api/sign/25765",
-  "Account": {
-    "Uin": 0,
-    "Password": "",
-    "Protocol": "Linux",
-    "AutoReconnect": true,
-    "GetOptimumServer": true
-  },
-  "Message": {
-    "IgnoreSelf": true,
-    "StringPost": false
-  },
-  "QrCode": {
-    "ConsoleCompatibilityMode": false
-  },
-  "Implementations": [
-    {
-      "Type": "ReverseWebSocket",
-      "Host": "127.0.0.1",
-      "Port": 8080,
-      "Suffix": "/onebot/v11/ws",
-      "ReconnectInterval": 5000,
-      "HeartBeatInterval": 5000,
-      "AccessToken": ""
-    }
-  ]
+    "Logging": {
+        "LogLevel": {
+            "Default": "Information",
+            "Microsoft": "Warning",
+            "Microsoft.Hosting.Lifetime": "Information"
+        }
+    },
+    "SignServerUrl": "",
+    "SignProxyUrl": "",
+    "MusicSignServerUrl": "",
+    "Account": {
+        "Uin": 0,
+        "Password": "",
+        "Protocol": "Linux",
+        "AutoReconnect": true,
+        "GetOptimumServer": true
+    },
+    "Message": {
+        "IgnoreSelf": true,
+        "StringPost": false
+    },
+    "QrCode": {
+        "ConsoleCompatibilityMode": false
+    },
+    "Implementations": [
+        {
+            "Type": "ReverseWebSocket",
+            "Host": "127.0.0.1",
+            "Port": 8080,
+            "Suffix": "/onebot/v11/ws",
+            "ReconnectInterval": 5000,
+            "HeartBeatInterval": 5000,
+            "AccessToken": ""
+        },
+    	{
+	    "Type": "ForwardWebSocket",
+	    "Host": "*",
+	    "Port": 8081,
+	    "HeartBeatInterval": 5000,
+	    "HeartBeatEnable": true,
+	    "AccessToken": ""
+	}
+    ]
 }
 ```
 
@@ -79,6 +89,14 @@ __此文件为主要配置文件__
 |  OAUTH_EMAIL_HOST   |   "smtp.example.com"    |           SMTP服务器            |
 |  OAUTH_EMAIL_PORT   |           25            |           SMTP服务端口           |
 
+#### 飞书日历通知
+|         name         |    example    | description |
+|:--------------------:|:-------------:|:-----------:|
+|    FEISHU_APP_ID     |   "app_id"    |   飞书应用ID    |
+|  FEISHU_APP_SECRET   | "app_secret"  | 飞书应用secret  |
+|  FEISHU_CALENDAR_ID  | "calendar_id" |   飞书日历ID    |
+| FEISHU_NOTICE_GROUPS |    ["123"]    |     通知群     |
+
 #### 微信公众号
 
 |       name       |  example   | description  |
@@ -115,6 +133,11 @@ OAUTH_EMAIL_SENDER = "test@example.com"
 OAUTH_EMAIL_PWD = "secret"
 OAUTH_EMAIL_HOST = "smtp.example.com"
 OAUTH_EMAIL_PORT = 25
+
+FEISHU_APP_ID="app_id"
+FEISHU_APP_SECRET="app_secret"
+FEISHU_CALENDAR_ID="calendar_id"
+FEISHU_NOTICE_GROUPS=["123"]
 
 WX_KEY = "xxx"
 WX_TOKEN = "xxx"
