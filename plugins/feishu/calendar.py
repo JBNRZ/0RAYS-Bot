@@ -21,7 +21,7 @@ class BaseCalendar:
         ]
         self.events: list[dict] = sorted(
             [self.get_event(event_id) for event_id in self.events_id],
-            key=lambda x: x.get("event", {}).get("start_time", {}).get("date", "")
+            key=lambda x: x.get("start_time", {}).get("date", "")
         )
 
     def list_event(self, calendar_id) -> dict:
@@ -64,14 +64,24 @@ class BaseCalendar:
                 f"Failed to get event {event_id}: {response.code} / {response.msg}"
             )
             return {}
-        return loads(JSON.marshal(response.data))
+        return loads(JSON.marshal(response.data)).get("event", {})
 
     def __str__(self):
         notice = ""
-        for event in self.events:
-            event = event.get("event", {})
-            attendees = ' '.join([i.get('display_name') for i in event.get('attendees', [{}])])
-            notice += f"{event.get('summary')}: {event.get('start_time', {}).get('date', '')}\n{'参与人：' if attendees else ''}{attendees}\n\n"
+        summaries = list(set([event.get('summary') for event in self.events]))
+        for summary in summaries:
+            events = sorted(
+                [event for event in self.events if event.get('summary') == summary],
+                key=lambda x: x.get("start_time", {}).get("date", "")
+            )
+            attendees = list(set([i.get("display_name", "") for event in events for i in event.get('attendees', [{}]) ]))
+            attendees = ' '.join(attendees) + "\n\n" if attendees else '\n'
+            if len(events) > 1:
+                notice += (f"{events[0].get('summary')}: {events[0].get('start_time', {}).get('date', '')} ~ {events[-1].get('start_time', {}).get('date', '')}\n"
+                           f"{'参与人：' if attendees.strip() else ''}{attendees}")
+            else:
+                notice += (f"{events[0].get('summary')}: {events[0].get('start_time', {}).get('date', '')}\n"
+                           f"{'参与人：' if attendees.strip() else ''}{attendees}")
         return notice.strip()
 
 
