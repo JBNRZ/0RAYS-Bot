@@ -15,7 +15,7 @@ def register_route(d: Driver):
 
 
 app = register_route(get_driver())
-token = get_driver().config.webhook_session_token
+token = get_driver().config.cbctf_webhook_token
 groups = get_driver().config.flag_notice_groups
 
 

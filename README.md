@@ -113,6 +113,12 @@ __此文件为主要配置文件__
 |:--------------:|:----------:|:-----------:|
 | CHECKIN_GROUPS | ["123456"] |     监听群     |
 
+#### CBCTF
+
+|        name         | example |         description         |
+|:-------------------:|:-------:|:---------------------------:|
+| CBCTF_WEBHOOK_TOKEN | "token" | 接受CTFd webhook时用的token，用于鉴权 |
+
 ### example
 
 ```
@@ -145,5 +151,7 @@ WX_APPID = "xxx"
 WX_NOTICE_GROUPS = ["123456"]
 WX_MANAGER = "123456"
 
-CHECKIN_GROUPS = ["123456"]  
+CHECKIN_GROUPS = ["123456"]
+
+CBCTF_WEBHOOK_TOKEN="xxx"
 ```
