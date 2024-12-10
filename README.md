@@ -115,9 +115,10 @@ __此文件为主要配置文件__
 
 #### CBCTF
 
-|        name         | example |         description         |
-|:-------------------:|:-------:|:---------------------------:|
-| CBCTF_WEBHOOK_TOKEN | "token" | 接受CTFd webhook时用的token，用于鉴权 |
+|        name         |  example   |         description         |
+|:-------------------:|:----------:|:---------------------------:|
+| CBCTF_WEBHOOK_TOKEN |  "token"   | 接受CTFd webhook时用的token，用于鉴权 |
+| BLOOD_NOTICE_GROUPS | ["123456"] |           需要通知的群            |
 
 ### example
 
@@ -154,4 +155,5 @@ WX_MANAGER = "123456"
 CHECKIN_GROUPS = ["123456"]
 
 CBCTF_WEBHOOK_TOKEN="xxx"
+BLOOD_NOTICE_GROUPS=["123456"]
 ```
