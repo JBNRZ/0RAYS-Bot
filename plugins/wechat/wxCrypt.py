@@ -46,7 +46,7 @@ def content(xml: str) -> str:
     if tree.find("MsgType").text == "image":
         return tree.find("PicUrl").text
     elif tree.find("MsgType").text == "event":
-        return "new event: " + tree.find("Event").text
+        return tree.find("Event").text
     else:
         return tree.find("Content").text
 
