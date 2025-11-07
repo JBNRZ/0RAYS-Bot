@@ -45,7 +45,10 @@ def content(xml: str) -> str:
     tree = ElementTree.fromstring(xml)
     if tree.find("MsgType").text == "image":
         return tree.find("PicUrl").text
-    return tree.find("Content").text
+    elif tree.find("MsgType").text == "event":
+        return "new event: " + tree.find("Event").text
+    else:
+        return tree.find("Content").text
 
 
 class PKCS7Encoder:
