@@ -82,7 +82,7 @@ class BaseCalendar:
             attendees = ' '.join(attendees) + "\n\n" if attendees else '\n'
             notice += f"{summary}: {start_time} ~ {end_time}\n"
             if description:
-                notice += f"备注：{description}\n"
+                notice += f"{description}\n"
             if attendees.strip():
                 notice += f"参与人：{attendees.strip()}\n"
             notice += "\n"
