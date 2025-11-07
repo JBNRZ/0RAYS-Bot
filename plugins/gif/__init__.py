@@ -16,7 +16,7 @@ from .functions import draw, rip, strike, rub, play, suck, pat, tightly, say
 
 
 async def check(event: NoticeEvent) -> bool:
-    if getattr(event, "notice_type", None) == "poke":
+    if getattr(event, "notice_type", None) == "poke" or getattr(event, "sub_type", None) == "poke":
         return True
     return False
 
