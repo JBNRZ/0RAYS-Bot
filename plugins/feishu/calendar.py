@@ -101,24 +101,14 @@ class NextDayCalendar(BaseCalendar):
         super().__init__(app_id, app_secret, calender_id)
 
 
-
 if __name__ == "__main__":
+    FEISHU_APP_ID = "app_id"
+    FEISHU_APP_SECRET = "app_secret"
+    FEISHU_CALENDAR_ID = "calender_id"
 
-    test = BaseCalendar(
-        "app_id",
-        "app_sceret",
-        "calendar_id"
-    )
+    test = BaseCalendar(FEISHU_APP_ID, FEISHU_APP_SECRET, FEISHU_CALENDAR_ID)
     print(test)
-    test = NextWeekCalendar(
-        "app_id",
-        "app_sceret",
-        "calendar_id"
-    )
+    test = NextWeekCalendar(FEISHU_APP_ID, FEISHU_APP_SECRET, FEISHU_CALENDAR_ID)
     print(test)
-    test = NextDayCalendar(
-        "app_id",
-        "app_sceret",
-        "calendar_id"
-    )
+    test = NextDayCalendar(FEISHU_APP_ID, FEISHU_APP_SECRET, FEISHU_CALENDAR_ID)
     print(test)
