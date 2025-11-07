@@ -25,14 +25,14 @@ class BaseCalendar:
         )
 
     def list_event(self, calendar_id) -> dict:
+        now = datetime(datetime.today().year, datetime.today().month, datetime.today().day)
         if isinstance(self, NextWeekCalendar):
-            start_time = str(round((datetime.now() + timedelta(days=1)).timestamp()))
-            end_time = str(round((datetime.now() + timedelta(days=7)).timestamp()))
+            start_time = str(round((now + timedelta(days=1)).timestamp()))
+            end_time = str(round((now + timedelta(days=7)).timestamp()))
         elif isinstance(self, NextDayCalendar):
-            start_time = str(round((datetime.now() + timedelta(days=1)).timestamp()))
-            end_time = str(round((datetime.now() + timedelta(days=1)).timestamp()))
+            start_time = end_time = str(round((now + timedelta(days=1)).timestamp()))
         elif isinstance(self, BaseCalendar):
-            start_time = end_time = str(round((datetime.now()).timestamp()))
+            start_time = end_time = str(round(now.timestamp()))
         else:
             raise Exception("Unknown calender type")
         request: ListCalendarEventRequest = ListCalendarEventRequest.builder() \
