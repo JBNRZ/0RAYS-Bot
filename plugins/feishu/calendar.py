@@ -42,14 +42,15 @@ class BaseCalendar:
             .build()
 
         response: ListCalendarEventResponse = self.client.calendar.v4.calendar_event.list(request)
-
         if not response.success():
             logger.error(
                 f"Failed to list calender {calendar_id}: {response.code} / {response.msg}"
             )
             return {}
-
-        return loads(JSON.marshal(response.data))
+        data = JSON.marshal(response.data)
+        if data is None:
+            return {}
+        return loads(data)
 
     def get_event(self, event_id: str) -> dict:
         request: GetCalendarEventRequest = GetCalendarEventRequest.builder() \
@@ -64,24 +65,27 @@ class BaseCalendar:
                 f"Failed to get event {event_id}: {response.code} / {response.msg}"
             )
             return {}
-        return loads(JSON.marshal(response.data)).get("event", {})
+        data = JSON.marshal(response.data)
+        if data is None:
+            return {}
+        return loads(data).get("event", {})
 
     def __str__(self):
         notice = ""
-        summaries = list(set([event.get('summary') for event in self.events]))
-        for summary in summaries:
-            events = sorted(
-                [event for event in self.events if event.get('summary') == summary],
-                key=lambda x: x.get("start_time", {}).get("date", "")
-            )
-            attendees = list(set([i.get("display_name", "") for event in events for i in event.get('attendees', [{}]) ]))
+        for event in self.events:
+            summary = event.get("summary", "").strip()
+            description = event.get("description", "").strip()
+            start_time, end_time = event.get("start_time", {}), event.get("end_time", {})
+            start_time = start_time.get("date", "") if "date" in start_time else datetime.fromtimestamp(float(start_time.get("timestamp", "")))
+            end_time = end_time.get("date", "") if "date" in end_time else datetime.fromtimestamp(float(end_time.get("timestamp", "")))
+            attendees = list(set([i.get("display_name", "") for i in event.get('attendees', [{}]) ]))
             attendees = ' '.join(attendees) + "\n\n" if attendees else '\n'
-            if len(events) > 1:
-                notice += (f"{events[0].get('summary')}: {events[0].get('start_time', {}).get('date', '')} ~ {events[-1].get('start_time', {}).get('date', '')}\n"
-                           f"{'参与人：' if attendees.strip() else ''}{attendees}")
-            else:
-                notice += (f"{events[0].get('summary')}: {events[0].get('start_time', {}).get('date', '')}\n"
-                           f"{'参与人：' if attendees.strip() else ''}{attendees}")
+            notice += f"{summary}: {start_time} ~ {end_time}\n"
+            if description:
+                notice += f"备注：{description}\n"
+            if attendees.strip():
+                notice += f"参与人：{attendees.strip()}\n"
+            notice += "\n"
         return notice.strip()
 
 
@@ -118,4 +122,3 @@ if __name__ == "__main__":
         "calendar_id"
     )
     print(test)
-    pass
