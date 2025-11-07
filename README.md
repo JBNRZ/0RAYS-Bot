@@ -107,12 +107,6 @@ __此文件为主要配置文件__
 | WX_NOTICE_GROUPS | ["123456"] |  微信公号消息转发群   |
 |    WX_MANAGER    |  "123456"  |     管理员      |
 
-#### SKL Checkin
-
-|      name      |  example   | description |
-|:--------------:|:----------:|:-----------:|
-| CHECKIN_GROUPS | ["123456"] |     监听群     |
-
 #### CBCTF
 
 |        name         |  example   |         description         |
@@ -151,8 +145,6 @@ WX_TOKEN = "xxx"
 WX_APPID = "xxx"
 WX_NOTICE_GROUPS = ["123456"]
 WX_MANAGER = "123456"
-
-CHECKIN_GROUPS = ["123456"]
 
 CBCTF_WEBHOOK_TOKEN="xxx"
 BLOOD_NOTICE_GROUPS=["123456"]
