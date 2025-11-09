@@ -8,7 +8,7 @@ from httpx import AsyncClient
 from nonebot import on_notice
 from nonebot.adapters.onebot.v11 import Bot, NoticeEvent
 from nonebot.adapters.onebot.v11.message import Message
-# from nonebot.rule import to_me
+from nonebot.rule import to_me
 from nonebot.rule import Rule
 from pil_utils import BuildImage
 
@@ -20,9 +20,8 @@ async def check(event: NoticeEvent) -> bool:
         return True
     return False
 
-# Lagrange 目前仅支持私聊poke
-# poke_me = on_notice(rule=Rule(check) & to_me(), block=False)
-poke_me = on_notice(rule=Rule(check), block=False)
+
+poke_me = on_notice(rule=Rule(check) & to_me(), block=False)
 
 
 @poke_me.handle()
